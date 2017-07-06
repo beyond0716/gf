@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <script type="text/javascript" src="../plugins/jquery/jQuery/1.12.4/jquery-1.12.4.min.js"></script>
+  <!--<script type="text/javascript" src="../js/es6.js"></script>-->
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul, ol {
+      list-style-position: inside;
+
+    }
+  </style>
+</head>
+<body>
+<p id='showNowTime'>时间：</p>
+<script>
+  /**
+   * 日期格式化
+   */
+  function dateFormat(t, f) {
+    var date = new Date(t);
+    var o = {
+          "Y": date.getFullYear(),
+          "M": (date.getMonth() + 1),
+          "D": date.getDate(),
+          "h": date.getHours(),
+          "m": date.getMinutes(),
+          "s": date.getSeconds()
+        },
+        d = '',
+        r = false,
+        reg = null,
+        _d = '';
+    for (d in o) {
+      reg = new RegExp('[' + d + ']{1,}', 'g');
+      r = reg.test(f);
+      if (r) {
+        _d = o[d];
+        f = f.replace(reg, _d < 10 ? ("0" + _d) : _d);
+      }
+    }
+    return f;
+  }
+
+  /**
+   * 获取指定日期所在月份的天数
+   */
+  function getMonthDays(Y, M) {
+    return new Date(Y, M, 0).getDate();
+  }
+
+  /**
+   * 获取指定日期是第几周
+   */
+  function getHowManyWeeks(Y, M, D) {
+    var totalDays = 0,
+        i = 1;
+    for (; i < M; i++) {
+      totalDays += getMonthDays(Y, M);
+    }
+    totalDays += D;
+    return Math.ceil(totalDays / 7);
+  }
+
+  /**
+   * 倒计时
+   */
+  function getCountDown(Y, M, D, h, m, s) {
+    Y = Y || 0;
+    M = M || 0;
+    D = D || 1;
+    h = h || 0;
+    m = m || 0;
+    s = s || 0;
+    var date = new Date(Y, M - 1, D, h, m, s),
+        times = date.getTime() - new Date().getTime();
+    return Math.ceil(times / (1000 * 60 * 60 * 24));
+  }
+
+  /**
+   * 日期加减
+   */
+  function setXDate(date, xY, xM, xD, xh, xm, xs) {
+    xY = xY || 0;
+    xM = xM || 0;
+    xD = xD || 0;
+    xh = xh || 0;
+    xm = xm || 0;
+    xs = xs || 0;
+    if (xY) {
+      date.setFullYear(date.getFullYear() + xY);
+    }
+    if (xM) {
+      date.setMonth(date.getMonth() + xM);
+    }
+    if (xD) {
+      date.setDate(date.getDate() + xD);
+    }
+    if (xh) {
+      date.setHours(date.getHours() + xh);
+    }
+    if (xm) {
+      date.setMinutes(date.getMinutes() + xm);
+    }
+    if (xs) {
+      date.setSeconds(date.getSeconds() + xs);
+    }
+    return date;
+  }
+
+  /**
+   * 日期字符串转化为日期对象
+   */
+  function strDate(strDate, s1, s2) {
+    var D = strDate.split(' '),
+        d1 = D[0],
+        d2 = D[1],
+        D1 = d1.split(s1 || '-'),
+        D2 = d2.split(s2 || ':');
+    return new Date(D1[0] || 0, D1[1]-1 || 0, D1[2] || 1, D2[0] || 0, D2[1] || 0, D2[2] || 0)
+  }
+  
+  function verifyDate(vDate) {
+    return /^(\d{4}-\d{2}-\d{2})\s(\d{2}:\d{2}:\d{2})$/.test(vDate);
+  }
+
+  document.getElementById('showNowTime').innerHTML = '时间：' + verifyDate('2017-03-03 12:35:45');
+</script>
+</body>
+</html>

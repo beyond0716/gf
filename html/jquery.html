@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <script type="text/javascript" src="../plugins/jquery/jQuery/1.12.4/jquery-1.12.4.min.js"></script>
+  <title></title>
+</head>
+
+<body>
+<div id="result">12343778</div>
+<div id="fmtresult"></div>
+<script>
+  $(function () {
+    var rel=$('#result').html(),
+        del='.';
+    var reg=new RegExp("(^\\d{0})(?=\\d{3})");
+    var rel1=rel.replace(new RegExp('(^\\d{'+(rel.toString().length%3||-1)+'})(?=\\d{3})','g'),'$1'+del).replace(/(\d{3})(?=\d{3})/g,'$1'+del);
+//    var arr=reg.exec(str);
+    console.log(rel1);
+  });
+
+
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <!--<script type="text/javascript" src="../js/jquery-1.12.0.min.js"></script>-->
+  <script type="text/javascript" src="../js/es6.js"></script>
+  <title></title>
+</head>
+
+<body>
+<div id="content">
+<div id="a"></div>
+</div>
+<div></div>
+<script>
+
+  var arr = ['a', 'b', 'c', 'd'];
+  var obj={a:1,b:2,c:3};
+
+
+  function divs () {
+    return [...document.querySelectorAll('div')];
+  }
+
+  const set = new Set(document.querySelectorAll('div'));
+
+  var tit='window';
+  var aa=function (){
+    console.log(this.tit);
+  }
+//  aa();
+  var bb={
+    tit:'object',
+    cc:function () {
+      console.log(this.tit);
+    }
+  }
+
+//  bb.cc();
+  const dd=function () {
+    bb.cc.apply(this);
+  };
+//  const dd=bb.cc.bind(this);
+//  const dd=()=>bb.cc.apply(this);
+//  dd();
+
+
+
+</script>
+</body>
+
+</html>

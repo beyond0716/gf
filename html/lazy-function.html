@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <!--<script type="text/javascript" src="../js/jquery-1.12.0.min.js"></script>-->
+  <script type="text/javascript" src="../js/es6.js"></script>
+  <title></title>
+</head>
+
+<body>
+<div id="content">
+
+</div>
+
+<script>
+  var foo = function () {
+    var t = new Date();
+    foo = function () {
+      return t;
+    };
+    return foo();
+  };
+
+  var getScrollY = function () {
+
+    if (typeof window.pageYOffset == 'number') {
+
+      getScrollY = function () {
+        return window.pageYOffset + 'a';
+      };
+
+    } else if ((typeof document.compatMode == 'string') &&
+        (document.compatMode.indexOf('CSS') >= 0) &&
+        (document.documentElement) &&
+        (typeof document.documentElement.scrollTop == 'number')) {
+
+      getScrollY = function () {
+        return document.documentElement.scrollTop + 'b';
+      };
+
+    } else if ((document.body) &&
+        (typeof document.body.scrollTop == 'number')) {
+
+      getScrollY = function () {
+        return document.body.scrollTop + 'c';
+      }
+
+    } else {
+
+      getScrollY = function () {
+        return NaN + 'd';
+      };
+
+    }
+
+    return getScrollY();
+  }
+  //  console.log(getScrollY())
+
+  function createXHR(){
+    var xhr=null;
+    if(typeof XMLHttpRequest !='undefined'){
+      xhr = new XMLHttpRequest();
+      createXHR=function(){
+        return new XMLHttpRequest();
+      }
+    }else{
+      try {
+        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+        createXHR=function(){
+          return new ActiveXObject("Msxml2.XMLHTTP");
+        }
+      }
+      catch (e) {
+        try {
+          xhr = new ActiveXObject("Microsoft.XMLHTTP");
+          createXHR=function(){
+            return new ActiveXObject("Microsoft.XMLHTTP");
+          }
+        }
+        catch (e) {
+          createXHR=function(){
+            return null;
+          }
+        }
+      }
+    }
+    return xhr;
+  }
+
+  function createXHR1(){
+    var xhr=null;
+    if(typeof XMLHttpRequest !='undefined'){
+      createXHR=function(){
+        return new XMLHttpRequest();
+      }
+    }else{
+      try {
+        createXHR=function(){
+          return new ActiveXObject("Msxml2.XMLHTTP");
+        }
+      }
+      catch (e) {
+        try {
+          createXHR=function(){
+            return new ActiveXObject("Microsoft.XMLHTTP");
+          }
+        }
+        catch (e) {
+          createXHR=function(){
+            return null;
+          }
+        }
+      }
+    }
+    return createXHR();
+  }
+
+  console.log(createXHR())
+</script>
+</body>
+
+</html>

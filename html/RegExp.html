@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <!--<script type="text/javascript" src="../js/jquery-1.12.0.min.js"></script>-->
+  <script type="text/javascript" src="../js/es6.js"></script>
+  <title></title>
+</head>
+
+<body>
+<div id="content">
+
+</div>
+
+<script>
+  const reg=/^hello/
+// const str="hello world!"
+//  const str="apple, orangec, cherry, peach."
+  const str="possibly yesterday"
+ const rel=/ly\b/.exec(str)
+ const  rel1=str.search(/hello/);
+//    console.log(rel)
+
+  var re = /quick\s(brown).+?(jumps)/ig;
+  var result = re.exec('The Quick Brown Fox Jumps Over The Lazy Dog');
+
+//  console.log(re)
+//  console.log(result)
+
+  var re = /(\w+)[*]{0,}(\w+)/;
+  var str1 = "John*********Smith";
+  var newstr = str1.replace(re, "$2, $1");
+//  console.log(newstr);
+
+
+
+
+
+</script>
+</body>
+
+</html>

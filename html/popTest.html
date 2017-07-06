@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <script type="text/javascript" src="../plugins/jquery/jQuery/1.12.4/jquery-1.12.4.min.js"></script>
+  <!--<script type="text/javascript" src="../js/es6.js"></script>-->
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+<input type="button" value="弹框" id="pop">
+<div style="background-color: #f00;opacity: 0.5;position: fixed;top: 0;left: 0;right: 0;bottom: 0;display: none;z-index: 1" id="mask"></div>
+<div id="popBox" style="position: absolute;left:50%;;top:200px;z-index: 999;;width: 400px;height: 500px;margin: 50px auto;background-color: #00b3ee;display: none;">
+  <iframe src="//id.duoyi.com/zm/html/login.html" id="iframe-pop" width="100%" height="100%" frameborder="0" ></iframe>
+</div>
+<script>
+//  document.domain='duoyi.com';
+$('#pop').click(function () {
+  $('#popBox').show();
+  $('#mask').show();
+  var iframe=document.getElementById('iframe-pop'),
+      iwindow=iframe.contentWindow,
+      idoc=iwindow.document,
+      ibody=idoc.body;
+  iframe.height=ibody.scrollHeight;
+  /*console.log(iframe.height);
+  console.log(ibody)*/
+})
+
+console.log(window.frames[0])
+</script>
+</body>
+</html>

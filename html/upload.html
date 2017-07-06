@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <script type="text/javascript" src="../plugins/jquery/jQuery/1.12.4/jquery-1.12.4.min.js"></script>
+  <!--<script type="text/javascript" src="../js/es6.js"></script>-->
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="ipt" style="margin: 50px 200px;">
+  <form id='fileUpload' enctype="multipart/form-data">
+    <p><input type="file" name='file1' id='filedemo1'> </p>
+    <input type="button" id='addFileUpload' value="添加">
+    <input type="button" id='clearFileUpload' value="清空">
+    <input type="button" id='fileUploadSub' value="上传">
+  </form>
+</textarea>
+</div>
+<script>
+var fileUpload= document.getElementById('fileUpload'),
+    filedemo1= document.getElementById('filedemo1'),
+fileUploadSub= document.getElementById('fileUploadSub');
+  fileUploadSub.onclick=function (e) {
+    console.log(filedemo1.files[0]);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <title>账号绑定</title>
+  <script src="./dc.js" data-appid="101067272" data-redirecturi="http://dianpu361.com/qcback.html"></script>
+</head>
+
+<body>
+<span id="dcSigninBtn"></span>
+<script>
+  DC.Signin({
+    btnId:"dcSigninBtn",
+    redirectURI:'http://10.32.8.63:3000/2017/ecardcsm.html?gate=csm',
+    size:'b_m',
+    fullWindow:false
+  });
+  if(window.postMessage){
+    alert('dsds')
+  }
+</script>
+</body>
+</html>

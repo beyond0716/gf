@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <title>账号绑定</title>
+
+</head>
+
+<body>
+<script>
+  function Person(name,age,job) {
+    this.name=name;
+    this.age=age;
+    this.job=job;
+    this.friends=['Tom','kit'];
+//    动态原型模式
+    /*if(typeof this.sayName !== 'function'){
+      Person.prototype.sayName=function () {
+        console.log(this.name);
+      }
+    }*/
+  }
+  Person.prototype={
+    constructor:Person,
+    sayName:function () {
+      console.log(this.name);
+    }
+  };
+  var person1=new Person();
+
+//  console.log(Person.prototype.isPrototypeOf(person1));
+//  console.log(Object.getPrototypeOf(person1)===Person.prototype);
+//  console.log(person1.hasOwnProperty('name'));
+//  console.log('name' in person1)
+//  for(item in obj){}
+//  console.log(person1.keys());
+//  console.log(person1.getOwnpropertyNames());
+
+function object(o) {
+  function F() {}
+  F.prototype=o;
+  return new F();
+}
+
+function inheritPrototype(SubType,SuperType) {
+  var prototype=object(SuperType.prototype);
+  prototype.constructor=SubType;
+  SubType.prototype=prototype;
+}
+
+  function SuperType(name) {
+    this.name=name;
+    this.colors=['red','green','blue'];
+  }
+  SuperType.prototype.sayName=function () {
+    console.log(this.name);
+  };
+  function SubType(name,age) {
+    SuperType.call(this,name);
+    this.age=age;
+  }
+//  SubType.prototype=new  SuperType();
+  inheritPrototype(SubType,SuperType);
+  SubType.prototype.sayAge=function () {
+    console.log(this.age);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <script type="text/javascript" src="../plugins/jquery/jQuery/1.12.4/jquery-1.12.4.min.js"></script>
+  <!--<script type="text/javascript" src="../js/es6.js"></script>-->
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul, ol {
+      list-style-position: inside;
+
+    }
+  </style>
+</head>
+<body>
+<input type="text" data-length='10' id='limitLength' data-remainingCharacters="charActers1" data-model='Ch' name="lname"/>
+<p>还可以输入<span id="charActers1">10</span>字符</p>
+<input id='hintInput' data-hint='我是提示信息' type='password' value=''
+       style="height: 24px;padding: 2px 5px;line-height: 24px;border: 1px solid #cccccc;">
+<input id="passwordStrength" data-hint='请输入密码' type="password"> <span id="showStrength"></span>
+<input type="text" id="cursorPos" value="光标永远停留在文字最后">
+<script>
+  var strLen = (function () {
+    var trim = function (chars) {
+      return (chars || '').replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, '')
+    }
+    return function (_str, _mode) {
+      _str = trim(_str);
+      _mode = _mode || 'Ch';
+      var _strLen = _str.length;
+      if (_strLen == 0) {
+        return 0;
+      } else {
+        var chinese = _str.match(/[\u4e00-\u9fa5]/g);
+        return _strLen + (chinese && _mode == 'Ch' ? chinese.length : 0);
+      }
+    }
+  })();
+
+  function isChinese(chars) {
+    return /[\u4e00-\u9fa5]/g.test(chars);
+  }
+
+  function isAllEnglish(str) {
+    strArr = Array.prototype.slice.call(str);
+    return strArr.every(function (item) {
+      return !isChinese(item);
+    })
+  }
+
+  var limitLength = document.getElementById('limitLength');
+  var charActers1=document.getElementById('charActers1');
+
+  var clearMore = function (_this) {
+    var _v = _this.value,
+        _vLen = _v.length,
+        _mode = _this.getAttribute('data-model'),
+        dataLength = _this.getAttribute('data-length'),
+        remainingCharacters = _this.getAttribute('data-remainingCharacters'),
+        len = dataLength;
+    if (_mode == 'Ch') {
+      _vLen = strLen(_v, _mode);
+      _v = _v.substr(0, dataLength);
+      if (isAllEnglish(_v)) {
+        len = dataLength;
+      } else {
+        var length = 0;
+        for (var i = 0; i < _v.length; i++) {
+          if (isChinese(_v[i])) {
+            length += 2;
+          } else {
+            length += 1;
+          }
+          if (length >= dataLength - 1) {
+            len = i + 1;
+            break;
+          }
+        }
+      }
+    }
+    if (_vLen > dataLength) {
+      _this.value = _v.substr(0, len);
+    }
+    if(remainingCharacters){
+      var num=!_vLen ? dataLength :(_vLen > dataLength ? 0 :dataLength - _vLen);
+      charActers1.innerHTML=num;
+    }
+  }
+  limitLength.onfocus = function () {
+    clearMore(this);
+  }
+  limitLength.onkeyup = function () {
+    clearMore(this);
+  }
+  limitLength.onblur = function () {
+    clearMore(this);
+  }
+
+
+  var setCss = function (_this, cssOptions) {
+        if (!_this || !_this.style || _this.nodeType == 3 || _this.nodeType == 8) {
+          return;
+        }
+        for (var cs in cssOptions) {
+          _this.style[cs] = cssOptions[cs];
+        }
+        return _this;
+      },
+      hintInput = document.getElementById('hintInput'),
+      dataHint = hintInput.getAttribute('data-hint'),
+      _span = document.createElement('span');
+  _span.innerHTML = dataHint;
+  _span.id = 'hint0';
+  _span.className = 'hintInput';
+  console.log(hintInput.offsetLeft);
+  setCss(_span, {
+    position: "absolute",
+    left: hintInput.offsetLeft+6+'px',
+    top: hintInput.offsetTop+3+'px',
+    zIndex: 2,
+    display: "block",
+    height:'24px',
+    lineHeight:'24px'
+  });
+  hintInput.value = '';
+  hintInput.parentNode.insertBefore(_span, hintInput);
+  _span.onclick = hintInput.onfocus = function (e) {
+    setCss(_span, {
+      display: "none"
+    });
+    hintInput.focus();
+  }
+  hintInput.onblur=function (e) {
+    if(!this.value.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g,'')){
+      setCss(_span,{
+        display: "block"
+      });
+    }
+  }
+
+
+
+  function trim(chars) {
+    return (chars || '').replace(/^(\s|00a0)+|(\s|00a0)+$/g, '')
+  }
+
+  function setCss(_this, cssOptions) {
+    if (!_this || !_this.style || _this.nodeType == 3 || _this.nodeType == 8) {
+      return;
+    }
+    for (var cs in cssOptions) {
+      _this.style[cs] = cssOptions[cs];
+    }
+    return _this;
+  }
+
+
+  function passwordStrength(passwordStrength, showStrength) {
+    var charStrength = function (char) {
+          if (char >= 48 && char <= 57) {
+            return 1;
+          } else if (char >= 97 && char <= 122) {
+            return 2;
+          } else {
+            return 3;
+          }
+        },
+        _colors = ["red", "yellow", "orange", "green"],
+        _msgs = ["密码太短", "弱", "中", "强"];
+    passwordStrength.onkeyup = function (e) {
+      var _v = trim(this.value),
+          _vLen = _v.length,
+          strength = 0,
+          i=0;
+      if (_vLen < 6) {
+        showStrength.innerHTML = _msgs[0];
+        setCss(showStrength, {
+          color: _colors[0]
+        })
+      } else {
+        for(;i<_vLen;i++){
+          strength+=charStrength(_v.toLowerCase().charCodeAt(i));
+        }
+        if(strength<10){
+          showStrength.innerHTML = _msgs[1];
+          setCss(showStrength, {
+            color: _colors[1]
+          })
+        }else if(strength>=10 && strength<15){
+          showStrength.innerHTML = _msgs[2];
+          setCss(showStrength, {
+            color: _colors[2]
+          })
+        }else if(strength>=15){
+          showStrength.innerHTML = _msgs[3];
+          setCss(showStrength, {
+            color: _colors[3]
+          })
+        }
+      }
+    }
+  }
+  var passwordStrengthEl = document.getElementById('passwordStrength');
+  var showStrengthEl = document.getElementById('showStrength');
+  passwordStrength(passwordStrengthEl, showStrengthEl);
+
+  var cursorPos=document.getElementById('cursorPos');
+  function cursorToEnd() {
+    var _vLen=this.value.length;
+    if(this.setSelectionRange){
+      this.setSelectionRange(_vLen,_vLen);
+    }else{
+      var a=this.createTextRange();
+      a.moveStart('character',_vLen);
+      a.collapse(true);
+      a.select();
+    }
+  }
+  cursorPos.onclick=cursorPos.onkeyup=cursorToEnd;
+</script>
+</body>
+</html>
